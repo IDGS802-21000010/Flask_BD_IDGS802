@@ -5,6 +5,7 @@ from config import DevelopmentConfig
 from flask import flash
 from models import db
 from flask import g
+from models import Alumnos
 
 import forms
 app=Flask(__name__)
@@ -19,6 +20,24 @@ def page_not_found(e):
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/index", methods=["GET", "POST"])
+def indexAlum():
+    alum_form=forms.UserForm2(request.form)
+    if request.method=='POST' and alum_form.validate():
+        alum=Alumnos(nombre=alum_form.nombre.data, apaterno = alum_form.apaterno.data,
+                 email = alum_form.email.data)
+        #insert into alumnos values()
+        db.session.add(alum)
+        db.session.commit()
+    return render_template("index2.html", form=alum_form)
+
+@app.route("/ABC_Completo", methods=["GET", "POST"])
+def ABCCompleto():
+    alum_form = forms.UserForm2(request.form)
+    alumno = Alumnos.query.all()
+
+    return render_template("ABC_Completo.html", Alumnos=alumno)
 
 @app.route("/alumnos",methods=["GET","POST"])
 def alumnos():
