@@ -15,7 +15,15 @@ class UserForm(Form):
     radios=RadioField('Curso',choices=[('1','1'),('2','2'),('3','3')])
 
 class UserForm2 (Form):
-    #id = IntegerField('id', [validators.number_range(min=1, max=20, message='Valor no valido')])
+    nombre = StringField("nombre", [
+        validators.DataRequired(message='El campo es requerido'), 
+        validators.length(min=4, max=10, message='Ingrese un nombre valido')
+    ])
+    email = EmailField('correo', [validators.Email(message='Ingrese un correo valido')])
+    apaterno = StringField('apaterno')
+
+class UserForm3 (Form):
+    id = IntegerField('id', [validators.number_range(min=1, max=20, message='Valor no valido')])
     nombre = StringField("nombre", [
         validators.DataRequired(message='El campo es requerido'), 
         validators.length(min=4, max=10, message='Ingrese un nombre valido')
